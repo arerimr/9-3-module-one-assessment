@@ -28,7 +28,12 @@ const exampleMovies = require("./movies");
       "James and the Giant Peach",
     ];
  */
-function getAllMovieTitles() {}
+function getAllMovieTitles(movies) {
+let newArr = []
+for (let x of movies){
+  newArr.push(x.title)
+} return newArr
+}
 
 /**
  * getHighestMetascore()
@@ -41,7 +46,21 @@ function getAllMovieTitles() {}
  *  getHighestMetascore(movies);
  *  //> 96
  */
-function getHighestMetascore() {}
+function getHighestMetascore(movies) {
+let highest;
+let newArr = [];
+let score;
+if (movies.length === 0){
+  highest = 0
+}
+for (let x of movies){
+  score = x.metascore
+newArr.push(Number(score))
+newArr.sort()
+//console.log(newArr)
+highest = newArr[newArr.length - 1]
+} return highest
+}
 
 /**
  * getAverageIMDBRating()
@@ -54,7 +73,26 @@ function getHighestMetascore() {}
  *  getAverageIMDBRating(movies);
  *  //> 7.76
  */
-function getAverageIMDBRating() {}
+function getAverageIMDBRating(movies) {
+let average;
+let newArr = [];
+let rating;
+let sum;
+function addingRatings(total, value){
+  return total + value
+}
+
+if (movies.length === 0){
+  average = 0
+}
+for (let x of movies){
+  rating = x.imdbRating
+  newArr.push(Number(rating))
+  sum = newArr.reduce(addingRatings)
+  average = (sum / (newArr.length)).toFixed(2)
+  //console.log(average)
+} return Number(average)
+}
 
 /**
  * countByRating()
@@ -67,7 +105,28 @@ function getAverageIMDBRating() {}
  *  countByRating(movies);
  *  //> { G: 3, PG: 7 }
  */
-function countByRating() {}
+function countByRating(movies) {
+  let obj = {}
+  let numG = 0;
+  let numPG = 0;
+  let other = 0;
+  if (movies.length === 0){
+    return obj
+  }
+  for (let x of movies){
+    if (x.rated === "G"){
+      numG += 1
+      obj.G = numG
+      //console.log(obj)
+    } else if (x.rated === "PG"){
+      numPG += 1
+      obj.PG = numPG
+    } else {
+      other += 1
+      obj[x.rated] = other
+    }
+  } return obj
+}
 
 /**
  * findById()
@@ -83,7 +142,29 @@ function countByRating() {}
       // Toy Story 4
     };
  */
-function findById() {}
+function findById(movies, ID) {
+  //let finalArr = []
+  let ide;
+  let y;
+  let z;
+if (movies.length === 0){
+  return null
+}
+for (let x of movies){
+  ide = x.imdbID
+  if (ide === ID){
+    y = x
+  }
+   //console.log(y)
+} if (y){
+  z = y
+} else if (!y){
+  z = null
+}
+
+return z
+
+}
 
 /**
  * filterByGenre()
@@ -105,7 +186,23 @@ function findById() {}
  *  filterByGenre(movies, "Horror")
  *  //> []
  */
-function filterByGenre() {}
+function filterByGenre(movies, genero) {
+  let gen2 = genero.toLowerCase()
+  let genreArr = []
+  let finalArr = []
+if (movies.length === 0)
+  return movies
+  for (let x of movies){
+  genreArr = (x.genre.split(", "))
+    for (let y of genreArr){
+      let z = y.toLowerCase()
+      if (z == gen2){
+        finalArr.push(x)
+        //console.log(gen2)
+      }
+    }
+  } return finalArr
+}
 
 /**
  * getAllMoviesReleasedAtOrBeforeYear()
@@ -129,7 +226,18 @@ function filterByGenre() {}
       }
     ];
  */
-function getAllMoviesReleasedAtOrBeforeYear() {}
+function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
+let newArr = []
+let date;
+let year1;
+for (let x of movies){
+  date = x.released
+  year1 = (Number(date.slice(date.length - 4)))
+  if (year1 <= year){
+    newArr.push(x)
+  }
+} return newArr
+}
 
 /**
  * getBiggestBoxOfficeMovie()
@@ -142,7 +250,31 @@ function getAllMoviesReleasedAtOrBeforeYear() {}
  *  getBiggestBoxOfficeMovie(movies);
  *  //> "Incredibles 2"
  */
-function getBiggestBoxOfficeMovie() {}
+function getBiggestBoxOfficeMovie(movies) {
+let returnName;
+let box;
+let numArr = [];
+let highest;
+//let box2;
+let strBox;
+let price;
+if (movies.length === 0){
+  return null
+}
+for (let x of movies){
+  box = x.boxOffice
+  //box2 = Number(box.slice(1).split(",").join(""))
+ numArr.push(Number(box.slice(1).split(",").join("")))
+ numArr.sort()
+ highest = numArr[numArr.length - 1]
+ strBox = highest.toString()
+ price = `$${strBox[0]}${strBox[1]}${strBox[2]},${strBox[3]}${strBox[4]}${strBox[5]},${strBox[6]}${strBox[7]}${strBox[8]}`
+ if (box === price){
+  returnName = x.title
+ }
+ //console.log(price)
+} return returnName
+}
 
 // Do not change anything below this line.
 module.exports = {
